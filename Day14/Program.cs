@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace _14;
+namespace Day14;
 
 internal static class Program
 {

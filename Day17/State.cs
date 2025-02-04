@@ -1,4 +1,4 @@
-namespace _17;
+namespace Day17;
 
 internal struct State : IEquatable<State>
 {

@@ -1,5 +1,5 @@
 ﻿// ReSharper disable CompareOfFloatsByEqualityOperator
-namespace _13;
+namespace Day13;
 
 internal static class Program
 {

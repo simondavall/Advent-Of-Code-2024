@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace _16;
+namespace Day16;
 
 public struct Vector
 {

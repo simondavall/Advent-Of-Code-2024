@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 
-namespace _20;
+namespace Day20;
 
 internal static class Program
 {

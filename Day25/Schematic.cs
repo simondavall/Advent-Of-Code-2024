@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace _25;
+namespace Day25;
 
 public struct Schematic
 {

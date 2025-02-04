@@ -1,4 +1,4 @@
-namespace _04;
+namespace Day04;
 
 internal partial class Program
 {

@@ -1,4 +1,4 @@
-﻿namespace _09;
+﻿namespace Day09;
 
 internal static class Program
 {

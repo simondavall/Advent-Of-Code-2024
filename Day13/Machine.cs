@@ -1,4 +1,4 @@
-namespace _13;
+namespace Day13;
 
 internal class Machine
 {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace _17;
+namespace Day17;
 
 internal static class Program
 {

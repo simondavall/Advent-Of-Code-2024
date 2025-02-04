@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Drawing;
 
-namespace _15;
+namespace Day15;
 
 public static class Robot
 {
