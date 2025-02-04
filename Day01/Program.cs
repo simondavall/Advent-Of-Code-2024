@@ -1,41 +1,36 @@
-﻿namespace Day01;
+using System.Diagnostics;
 
-internal static class Program
+namespace Day01;
+
+internal static partial class Program
 {
-    private static void Main()
-    {
-        var input = File.ReadAllText("input.txt").Split("\n", StringSplitOptions.RemoveEmptyEntries);
+  public static int Main(string[] args)
+  {
+    Console.WriteLine(Title);
+    Console.WriteLine(AdventOfCode);
 
-        List<int> firstList = [];
-        List<int> secondList = [];
-        
-        foreach (var line in input)
-        {
-            var pair = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            firstList.Add(int.Parse(pair[0]));
-            secondList.Add(int.Parse(pair[1]));
-        }
+    long resultPartOne = -1;
+    long resultPartTwo = -1;
 
-        Console.WriteLine($"Part 1: {PartOne(firstList, secondList)}");
-        Console.WriteLine($"Part 2: {PartTwo(firstList, secondList)}");
+    foreach (var filePath in args) {
+      Console.WriteLine($"\nFile: {filePath}\n");
+      string input = File.ReadAllText(filePath);
+      var stopwatch = Stopwatch.StartNew();
+
+      resultPartOne = PartOne(input);
+      PrintResult("1", resultPartOne.ToString(), stopwatch);
+
+      resultPartTwo = PartTwo(input);
+      PrintResult("2", resultPartTwo.ToString(), stopwatch);
     }
-    
-    private static long PartOne(List<int> firstList, List<int> secondList)
-    {
-        firstList.Sort();
-        secondList.Sort();
 
-        return firstList.Select((t, i) => long.Abs(t - secondList[i])).Sum();
-    }
-    
-    private static long PartTwo(List<int> firstList, List<int> secondList)
-    {
-        long tally = 0; 
-        foreach (var locationId in firstList)
-        {
-            tally += locationId * secondList.Count(x => x == locationId);
-        }
+    return resultPartOne == ExpectedPartOne && resultPartTwo == ExpectedPartTwo ? 0 : 1;
+  }
 
-        return tally;
-    }
+  private static void PrintResult(string partNo, string result, Stopwatch sw)
+  {
+    sw.Stop();
+    Console.WriteLine($"Part {partNo} Result: {result} in {sw.Elapsed.TotalMilliseconds}ms");
+    sw.Restart();
+  }
 }

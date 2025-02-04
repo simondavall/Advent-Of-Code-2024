@@ -1,72 +1,33 @@
-﻿namespace Day02;
+using System.Diagnostics;
 
-internal static class Program
-{
-    private static bool _isLevelIncreasing;
+namespace Day02;
 
-    internal static void Main()
-    {
-        var input = File.ReadAllText("input.txt").Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        
-        Console.WriteLine($"Part 1: {PartOne(input)}");
-        Console.WriteLine($"Part 2: {PartTwo(input.ToList())}");
-    }
-    
-    private static long PartOne(string[] reports)
-    {
-        long tally = 0;
-        foreach (var report in reports)
-        {
-            var levels = report.Split(' ').Select(int.Parse).ToList();
-            tally += IsReportSafe(levels) ? 1 : 0;
-        }
-        
-        return tally;
+internal static partial class Program {
+ public static int Main(string[] args) {
+    Console.WriteLine(Title);
+    Console.WriteLine(AdventOfCode);
+
+    long resultPartOne = -1;
+    long resultPartTwo = -1;
+
+    foreach (var filePath in args) {
+      Console.WriteLine($"\nFile: {filePath}\n");
+      string input = File.ReadAllText(filePath);
+      var stopwatch = Stopwatch.StartNew();
+
+      resultPartOne = PartOne(input);
+      PrintResult("1", resultPartOne.ToString(), stopwatch);
+
+      resultPartTwo = PartTwo(input);
+      PrintResult("2", resultPartTwo.ToString(), stopwatch);
     }
 
-    private static long PartTwo(List<string> reports)
-    {
-        var tally = 0;
+    return resultPartOne == ExpectedPartOne && resultPartTwo == ExpectedPartTwo ? 0 : 1;
+  }
 
-        foreach (var report in reports)
-        {
-            var levels = report.Split(' ').Select(int.Parse).ToList();
-            if (IsReportSafe(levels))
-            {
-                tally++;
-                continue;
-            }
-            
-            for (var i = 0; i < levels.Count; i++)
-            {
-                List<int> amendedLevels = [];
-                amendedLevels.AddRange(levels.Where((_, j) => i != j));
-
-                if (!IsReportSafe(amendedLevels))
-                    continue;
-                
-                tally++;
-                break;
-            }
-        }
-        
-        return tally;
-    }
-    
-    private static bool IsReportSafe(List<int> levels)
-    {
-        _isLevelIncreasing = levels[0] > levels[1];
-        foreach (var _ in levels)
-        {
-            for (var j = 1; j < levels.Count; j++)
-            {
-                if (levels[j - 1] > levels[j] != _isLevelIncreasing
-                    || levels[j - 1] == levels[j]
-                    || int.Abs(levels[j - 1] - levels[j]) > 3)
-                    return false;
-            }
-        }
-
-        return true;
-    }
+  private static void PrintResult(string partNo, string result, Stopwatch sw) {
+    sw.Stop();
+    Console.WriteLine($"Part {partNo} Result: {result} in {sw.Elapsed.TotalMilliseconds}ms");
+    sw.Restart();
+  }
 }
