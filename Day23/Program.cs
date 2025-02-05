@@ -1,97 +1,33 @@
-﻿namespace Day23;
+using System.Diagnostics;
 
-internal static class Program
-{
-    private static Dictionary<string, List<string>> _connections = [];
-    private static readonly List<string> LanParty = [];
+namespace Day23;
 
-    internal static void Main()
-    {
-        var input = File.ReadAllText($"input.txt").Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        _connections = GetConnections(input);
-        
-        Console.WriteLine($"Part 1: {PartOne()}");
-        Console.WriteLine($"Part 2: {PartTwo()}");
+internal static partial class Program {
+ public static int Main(string[] args) {
+    Console.WriteLine(Title);
+    Console.WriteLine(AdventOfCode);
+
+    long resultPartOne = -1;
+    string resultPartTwo = "";
+
+    foreach (var filePath in args) {
+      Console.WriteLine($"\nFile: {filePath}\n");
+      string input = File.ReadAllText(filePath);
+      var stopwatch = Stopwatch.StartNew();
+
+      resultPartOne = PartOne(input);
+      PrintResult("1", resultPartOne.ToString(), stopwatch);
+
+      resultPartTwo = PartTwo(input);
+      PrintResult("2", resultPartTwo.ToString(), stopwatch);
     }
 
-    private static long PartOne()
-    {
-        var connected = (from x in _connections.Keys
-            .Where(x => x[0] == 't') from y in _connections[x] from z in _connections[y] where x != z && _connections[z]
-            .Contains(x) select (x, y, z)
-            .SortedTriple<string>()).ToList();
+    return resultPartOne == ExpectedPartOne && resultPartTwo == ExpectedPartTwo ? 0 : 1;
+  }
 
-        return connected.ToList().Distinct().Count();
-    }
-    
-    private static long PartTwo()
-    {
-        foreach (var computer in _connections.Keys)
-        {
-            FindLongestChain(computer, [computer]);
-        }
-        
-        var max = 0;
-        var lanParty = string.Empty;
-        foreach (var party in LanParty.Where(party => party.Length > max))
-        {
-            max = party.Length;
-            lanParty = party;
-        }
-        
-        return lanParty.Split(',', StringSplitOptions.RemoveEmptyEntries).Length;
-    }
-    
-    private static void FindLongestChain(string computer, List<string> connectedComputers)
-    {
-        connectedComputers.Sort();
-        var key = string.Join(',', connectedComputers);
-        if (LanParty.Contains(key))
-            return;
-        LanParty.Add(key);
-        
-        foreach (var neighbour in _connections[computer])
-        {
-            if (connectedComputers.Contains(neighbour))
-                continue;
-            
-            if (connectedComputers.All(connectedComputer => _connections[connectedComputer].Contains(neighbour)))
-            {
-                connectedComputers.Add(neighbour);
-                FindLongestChain(neighbour, connectedComputers);
-            }
-        }
-    }
-    
-    private static Dictionary<string, List<string>> GetConnections(string[] input)
-    {
-        Dictionary<string, List<string>> connections = [];
-        
-        foreach (var c in input)
-        {
-            var (x, y) = c.Split('-').ToPairedTuple();
-
-            if (!connections.ContainsKey(x))
-                connections.Add(x, []);
-            if (!connections.ContainsKey(y))
-                connections.Add(y, []);
-
-            connections[x].Add(y);
-            connections[y].Add(x);
-        }
-        
-        return connections;
-    }
-    
-    private static (T, T) ToPairedTuple<T>(this T[] array)
-    {
-        return (array[0], array[1]);
-    }
-    
-    private static (T, T, T) SortedTriple<T>(this (T, T, T) tuple) where T: IComparable<T>
-    {
-        List<T> list = [tuple.Item1, tuple.Item2, tuple.Item3];
-        list.Sort();
-        return (list[0], list[1], list[2]);
-    }
+  private static void PrintResult(string partNo, string result, Stopwatch sw) {
+    sw.Stop();
+    Console.WriteLine($"Part {partNo} Result: {result} in {sw.Elapsed.TotalMilliseconds}ms");
+    sw.Restart();
+  }
 }

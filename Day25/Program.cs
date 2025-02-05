@@ -1,57 +1,33 @@
-﻿namespace Day25;
+using System.Diagnostics;
 
-internal static class Program
-{
-    private static readonly List<Schematic> Locks = [];
-    private static readonly List<Schematic> Keys = [];
+namespace Day25;
 
-    internal static void Main()
-    {
-        var input = File.ReadAllText("input.txt").Split("\n\n", StringSplitOptions.RemoveEmptyEntries);
+internal static partial class Program {
+ public static int Main(string[] args) {
+    Console.WriteLine(Title);
+    Console.WriteLine(AdventOfCode);
 
-        foreach (var schematic in input)
-        {
-            var lines = schematic.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-            
-            var item = new Schematic();
-            foreach (var row in lines)
-            {
-                item.AddRow(row);
-            }
-            
-            if (lines[0][0] == '#')
-                Locks.Add(item);
-            else
-                Keys.Add(item);
-        }
+    long resultPartOne = -1;
+    long resultPartTwo = -1;
 
-        Console.WriteLine($"Part 1: {PartOne()}");
-        Console.WriteLine($"Part 2: Merry Christmas! :-)");
+    foreach (var filePath in args) {
+      Console.WriteLine($"\nFile: {filePath}\n");
+      string input = File.ReadAllText(filePath);
+      var stopwatch = Stopwatch.StartNew();
+
+      resultPartOne = PartOne(input);
+      PrintResult("1", resultPartOne.ToString(), stopwatch);
+
+      resultPartTwo = PartTwo(input);
+      PrintResult("2", resultPartTwo.ToString(), stopwatch);
     }
 
-    private static long PartOne()
-    {
-        long tally = 0;
-        foreach (var k in Keys)
-        {
-            foreach (var l in Locks)
-            {
-                if(k.Size + l.Size > 25)
-                    continue;
-                tally += MatchKey(l, k);
-            }
-        }
-        return tally;
-    }
+    return resultPartOne == ExpectedPartOne && resultPartTwo == ExpectedPartTwo ? 0 : 1;
+  }
 
-    private static int MatchKey(Schematic l, Schematic k)
-    {
-        return l.Tumblers.Where((t, i) => t + k.Tumblers[i] > 5).Any() ? 0 : 1;
-    }
-    
-    private static long PartTwo()
-    {
-        long tally = 0;
-        return tally;
-    }
+  private static void PrintResult(string partNo, string result, Stopwatch sw) {
+    sw.Stop();
+    Console.WriteLine($"Part {partNo} Result: {result} in {sw.Elapsed.TotalMilliseconds}ms");
+    sw.Restart();
+  }
 }
