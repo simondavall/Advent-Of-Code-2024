@@ -64,4 +64,15 @@ public static class InputExtensions
     return (array[0].ToInt(), array[1].ToInt());
   }
 
+  public static (int first, int second, int third) ToIntTupleTriple(this string[] array)
+  {
+    if (array.Length > 3)
+      throw new ArgumentException(
+          $" Too many array members.{array.Length} This method requires an array of length 3.");
+    if (array.Length < 3)
+      throw new ArgumentException(
+          $" Too few array members.{array.Length} This method requires an array of length 3.");
+
+    return (array[0].ToInt(), array[1].ToInt(), array[2].ToInt());
+  }
 }

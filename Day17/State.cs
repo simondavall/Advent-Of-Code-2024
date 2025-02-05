@@ -17,7 +17,7 @@ internal struct State : IEquatable<State>
     public int Opcode { get; set; }
     public int Operand { get; set; }
 
-    public bool Equals(State other)
+    public readonly bool Equals(State other)
     {
         return RegisterA == other.RegisterA 
                && RegisterB == other.RegisterB 
@@ -26,12 +26,12 @@ internal struct State : IEquatable<State>
                && Operand == other.Operand;
     }
 
-    public override bool Equals(object? obj)
+    public readonly override bool Equals(object? obj)
     {
         return obj is State other && Equals(other);
     }
 
-    public override int GetHashCode()
+    public readonly override int GetHashCode()
     {
         return HashCode.Combine(RegisterA, RegisterB, RegisterC, Opcode, Operand);
     }
