@@ -268,8 +268,8 @@ https://adventofcode.com/2024/day/24
 
 File: ../Day24/input.txt
 
-Part 1 Result: 57588078076750 in 3.005ms\
-Part 2 Result: kcd,pfn,shj,tpk,wkb,z07,z23,z27 in 4901.1691ms\
+Part 1 Result: 57588078076750 in 3.0897ms\
+Part 2 Result: kcd,pfn,shj,tpk,wkb,z07,z23,z27 in 417.2918ms\
 Great Success!!!
 
 
@@ -283,5 +283,5 @@ Part 2 Result: 0 in 0.0348ms\
 Great Success!!!
 
 
-All solutions ran in (ms): 14792\
+All solutions ran in (ms): 12100\
 25/25 solutions passed successfully!.

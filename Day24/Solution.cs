@@ -12,9 +12,12 @@ internal static partial class Program
 
   private static Dictionary<string, int> _wires = [];
   private static Dictionary<string, Connection> _connections = [];
+  private static HashSet<string> _cachedZWires = [];
 
   private static long PartOne(string input)
   {
+    _wires = [];
+    _cachedZWires = [];
     SetGlobalWiresAndConnections(input);
 
     var zWires = new List<int>();
@@ -34,24 +37,27 @@ internal static partial class Program
 
   private static string PartTwo(string input)
   {
+    var repititions = 4;
     List<string> swappedWires = [];
+    var counter = 0;
+    var errorLine = FindError();
 
-    var repeat = 0;
-    while (repeat++ < 4) {
+    while (counter++ < repititions) {
       var foundSwap = false;
-      var errorLine = FindError();
       foreach (var x in _connections.Keys) {
         foreach (var y in _connections.Keys) {
           if (x == y)
             continue;
-          (_connections[x], _connections[y]) = (_connections[y], _connections[x]);
-          if (FindError() > errorLine) {
+          SwitchConnections(x, y);
+          var error = FindError();
+          if (error > errorLine) {
+            errorLine = error;
             swappedWires.Add(x);
             swappedWires.Add(y);
             foundSwap = true;
             break;
           }
-          (_connections[x], _connections[y]) = (_connections[y], _connections[x]);
+          SwitchConnections(x, y);
         }
 
         if (foundSwap)
@@ -61,6 +67,11 @@ internal static partial class Program
 
     swappedWires.Sort();
     return string.Join(",", swappedWires);
+  }
+
+  private static void SwitchConnections(string c1, string c2)
+  {
+    (_connections[c1], _connections[c2]) = (_connections[c2], _connections[c1]);
   }
 
   private static int GetOutput(string wire)
@@ -88,23 +99,21 @@ internal static partial class Program
 
   private static int FindError()
   {
-    var i = 0;
+    int i = 0;
 
     while (true) {
-      if (!CheckGraph(i))
+      var zWire = Wire('z', i);
+      if (!_cachedZWires.Contains(zWire) && !IsCorrect(zWire, i)){
         break;
+      }
+      _cachedZWires.Add(zWire);
       i++;
     }
 
     return i;
   }
 
-  private static bool CheckGraph(int n)
-  {
-    return CheckZWires(Wire('z', n), n);
-  }
-
-  private static bool CheckZWires(string wire, int n)
+  private static bool IsCorrect(string wire, int n)
   {
     if (!_connections.TryGetValue(wire, out var c))
       return false;
@@ -203,5 +212,4 @@ internal static partial class Program
     public string Input2 { get; set; } = input2;
     public string Gate { get; set; } = gate;
   }
-
 }
