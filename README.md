@@ -188,8 +188,8 @@ https://adventofcode.com/2024/day/16
 
 File: ../Day16/input.txt
 
-Part 1 Result: 101492 in 1505.2654ms\
-Part 2 Result: 543 in 8.28ms\
+Part 1 Result: 101492 in 470.0479ms
+Part 2 Result: 543 in 0.0592ms
 Great Success!!!
 
 
@@ -283,5 +283,5 @@ Part 2 Result: 0 in 0.0348ms\
 Great Success!!!
 
 
-All solutions ran in (ms): 9240\
+All solutions ran in (ms): 7763\
 25/25 solutions passed successfully!.
