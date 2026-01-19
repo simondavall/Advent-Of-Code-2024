@@ -1,7 +1,7 @@
 # Advent-Of-Code-2024
 Complete solutions for Advent Of Code 2024 written using C#
 
-#<img src="./Aoc2024.png" alt="Advent Of Code 2024" width="600" />
+<img src="./Aoc2024.png" alt="Advent Of Code 2024" width="600" />
 
 ### To run all 25 days: ###
 1. Install .Net 10.0 sdk/runtime.
